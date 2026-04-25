@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Teknolojileri Proje Ödevi</title>
+</head>
+<body>
+
+    <header>
+        <nav>
+            <ul>
+                <li><a href="#hakkinda">Hakkında</a></li>
+                <li><a href="#ozgecmis">Özgeçmiş</a></li>
+                <li><a href="#sehrim">Şehrim</a></li>
+                <li><a href="#mirasimiz">Mirasımız</a></li>
+                <li><a href="#ilgi-alanlarim">İlgi Alanlarım</a></li>
+                <li><a href="#iletisim">İletişim</a></li>
+                <li><a href="login.html">Giriş Yap</a></li> </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="hakkinda">
+            <h1>Hakkında</h1>
+            <p>Merhaba, ben Mehmet Efe. Sakarya Üniversitesi'nde mühendislik öğrencisiyim.</p>
+            <p>Hobilerim: Strateji oyunları, yapay zeka projeleri ve yeni teknolojileri keşfetmek.</p>
+            </section>
+
+        <hr>
+
+        <section id="ozgecmis">
+            <header><h2>Özgeçmiş (CV)</h2></header>
+            <article>
+                <h3>Eğitim Bilgileri</h3>
+                <p><strong>Üniversite:</strong> Sakarya Üniversitesi (SAÜ)</p>
+                <p><strong>Bölüm:</strong> Endüstri Mühendisliği & Bilgisayar Mühendisliği (ÇAP)</p>
+            </article>
+            <article>
+                <h3>Teknik Beceriler</h3>
+                <ul>
+                    <li>HTML5 & CSS3</li>
+                    <li>JavaScript</li>
+                    <li>C# & Python</li>
+                </ul>
+            </article>
+        </section>
+
+        <hr>
+
+        <section id="sehrim">
+            <h2>Şehrim: Sakarya</h2>
+            <p>Nüfus: Yaklaşık 1 Milyon</p>
+            <p>Gezilecek Yerler: Sapanca Gölü, Taraklı, Poyrazlar Gölü.</p>
+            <div id="slider-placeholder">Resim Slider Alanı</div>
+        </section>
+
+        <hr>
+
+        <section id="mirasimiz">
+            <h2>Mirasımız: Sakaryaspor</h2>
+            <p>Şehrimizin köklü spor kulübü ve futbol kültürü hakkında detaylar.</p>
+        </section>
+
+        <hr>
+
+        <section id="ilgi-alanlarim">
+            <h2>İlgi Alanlarım (API)</h2>
+            <p>Burada ücretsiz bir API servisinden çekilen veriler (film, spor vb.) gösterilecektir.</p>
+        </section>
+
+        <hr>
+
+        <section id="iletisim">
+            <h2>İletişim</h2>
+            <form action="islem.php" method="POST">
+                <label for="ad">Ad Soyad:</label>
+                <input type="text" id="ad" name="ad"><br><br>
+
+                <label for="email">E-mail:</label>
+                <input type="email" id="email" name="email"><br><br>
+
+                <label>Cinsiyet:</label>
+                <input type="radio" name="cinsiyet" value="erkek"> Erkek
+                <input type="radio" name="cinsiyet" value="kadin"> Kadın<br><br>
+
+                <label>Hobiler:</label>
+                <input type="checkbox" name="hobi" value="kodlama"> Kodlama
+                <input type="checkbox" name="hobi" value="oyun"> Oyun<br><br>
+
+                <label for="sehir">Şehir:</label>
+                <select id="sehir" name="sehir">
+                    <option value="sakarya">Sakarya</option>
+                    <option value="istanbul">İstanbul</option>
+                </select><br><br>
+
+                <label for="mesaj">Mesajınız:</label><br>
+                <textarea id="mesaj" name="mesaj" rows="4" cols="30"></textarea><br><br>
+
+                <button type="submit">Native JS ile Denetle ve Gönder</button>
+                <button type="button">Vue.js/Framework ile Denetle</button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Mehmet Efe - Web Teknolojileri Projesi</p>
+    </footer>
+
+</body>
+</html>
