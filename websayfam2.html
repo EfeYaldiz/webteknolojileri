@@ -171,8 +171,24 @@
         <hr>
 
         <section id="ilgi-alanlarim">
-            <h2>İlgi Alanlarım (API)</h2>
-            <p>Burada ücretsiz bir API servisinden çekilen veriler (film, spor vb.) gösterilecektir.</p>
+            <header>
+                <h2>İlgi Alanlarım: Oyunlar ve Diziler (API Entegrasyonu)</h2>
+            </header>
+            
+            <article>
+                <p>Favori oyun serilerimden Resident Evil'ın dizi/film adaptasyonları hakkındaki bilgileri aşağıdan çekebilirsiniz:</p>
+                
+                <!-- Hafta 13: onclick eventi ile JS fonksiyonunu çağırma -->
+                <button type="button" onclick="veriGetir('Resident Evil')">Resident Evil Bilgilerini Getir</button>
+                <button type="button" onclick="veriGetir('Cyberpunk')">Cyberpunk Bilgilerini Getir</button>
+                
+                <!-- API'den gelen verilerin yazdırılacağı alan -->
+                <div id="api-sonuc-alani" style="margin-top: 20px; padding: 15px; border: 1px solid #ccc;">
+                    <h3 id="dizi-baslik">API'den veri bekleniyor...</h3>
+                    <p id="dizi-puan"></p>
+                    <p id="dizi-ozet"></p>
+                </div>
+            </article>
         </section>
 
         <hr>
@@ -212,6 +228,21 @@
     <footer>
         <p>&copy; 2026 Mehmet Efe - Web Teknolojileri Projesi</p>
     </footer>
-
+    <script>
+        function veriGetir(kelime) {
+            // TVMaze ücretsiz API servisine istek atıyoruz
+            fetch('https://api.tvmaze.com/singlesearch/shows?q=' + kelime)
+            .then(function(resp) { return resp.json(); })
+            .then(function(data) {
+                // Gelen verileri HTML içindeki ID'lere yazdırıyoruz
+                document.getElementById('dizi-baslik').innerHTML = data.name;
+                document.getElementById('dizi-puan').innerHTML = "<strong>Puan:</strong> " + (data.rating.average || "Bilinmiyor");
+                document.getElementById('dizi-ozet').innerHTML = "<strong>Özet:</strong> " + data.summary;
+            })
+            .catch(function(error) {
+                document.getElementById('dizi-baslik').innerHTML = "Veri çekilirken bir hata oluştu!";
+            });
+        }
+    </script>
 </body>
 </html>
