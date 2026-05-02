@@ -1,0 +1,85 @@
+body {
+    background-color: #f8f9fa; 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Navbar Özelleştirme */
+.navbar {
+    border-bottom: 3px solid #007bff;
+}
+
+.navbar-brand {
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+/* Bölüm Tasarımları */
+section {
+    background: #ffffff;
+    padding: 30px;
+    margin-bottom: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+/* Özgeçmiş (CV) Kısmı İçin Özel Stil */
+#ozgecmis h3 {
+    color: #0056b3;
+    border-left: 5px solid #0056b3;
+    padding-left: 15px;
+    margin-top: 20px;
+}
+
+/* Resimli Slider'ı Hazırlama */
+#slider-alani {
+    position: relative;
+    max-width: 800px;
+    margin: 0 auto;
+    overflow: hidden; /* Dışarı taşan resimleri gizle */
+    border: 5px solid #fff;
+    border-radius: 10px;
+}
+
+#slider-alani figure {
+    display: none; /* Şimdilik hepsini gizliyoruz */
+    margin: 0;
+}
+
+#slider-alani figure:first-child {
+    display: block; /* Sadece ilk resmi gösteriyoruz (Slider mantığı) */
+}
+
+#slider-alani img {
+    width: 100%;
+    height: 450px;
+    object-fit: cover; /* Resimleri bozmadan kutuya sığdır */
+}
+
+/* Slider Butonları */
+.slider-kontrolleri {
+    text-align: center;
+    margin-top: 15px;
+}
+
+.slider-kontrolleri button {
+    background-color: #343a40;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 0 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.slider-kontrolleri button:hover {
+    background-color: #007bff;
+}
+
+/* Footer Tasarımı */
+footer {
+    font-size: 0.9rem;
+    color: #6c757d;
+}
