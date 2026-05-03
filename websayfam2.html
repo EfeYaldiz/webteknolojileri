@@ -127,8 +127,9 @@
                     </figure>
                     
                     <div class="slider-kontrolleri">
-                        <button type="button">Geri</button>
-                        <button type="button">İleri</button>
+                        <!-- -1 değeri bir önceki slayta, 1 değeri bir sonraki slayta gitmeyi ifade eder -->
+                        <button type="button" onclick="slaytDegistir(-1)">Geri</button>
+                        <button type="button" onclick="slaytDegistir(1)">İleri</button>
                     </div>
                 </div>
             </article>
@@ -246,6 +247,34 @@
             .catch(function(error) {
                 document.getElementById('dizi-baslik').innerHTML = "Veri çekilirken bir hata oluştu!";
             });
+        }
+        let slaytIndex = 0;
+        const slaytlar = document.querySelectorAll('#slider-alani figure');
+
+        // Slaytları gösteren ana fonksiyon
+        function slaytGoster(index) {
+            // Eğer son resmi geçersek en başa dön
+            if (index >= slaytlar.length) {
+                slaytIndex = 0;
+            }
+            // Eğer ilk resimden geriye basarsak en sona git
+            if (index < 0) {
+                slaytIndex = slaytlar.length - 1;
+            }
+
+            // Önce tüm slaytları tamamen gizle
+            for (let i = 0; i < slaytlar.length; i++) {
+                slaytlar[i].style.display = "none";
+            }
+
+            // Sadece aktif olan index'teki (sıradaki) slaytı göster
+            slaytlar[slaytIndex].style.display = "block";
+        }
+
+        // Butonlara tıklandığında yönü belirleyen fonksiyon
+        function slaytDegistir(yon) {
+            slaytIndex += yon;
+            slaytGoster(slaytIndex);
         }
     </script>
 </body>
