@@ -199,33 +199,69 @@
         <hr>
 
         <section id="iletisim">
-            <h2>İletişim</h2>
-            <form action="islem.php" method="POST">
-                <label for="ad">Ad Soyad:</label>
-                <input type="text" id="ad" name="ad"><br><br>
+            <header>
+                <h2>İletişim</h2>
+            </header>
+            
+            <article>
+                <p>Benimle iletişime geçmek için aşağıdaki formu doldurabilirsiniz:</p>
+                
+                <!-- Form PHP'ye gidecek (Yarın ayarlayacağız) -->
+                <form id="iletisimFormu" action="islem.php" method="POST">
+                    
+                    <!-- Text ve Email Input -->
+                    <div class="form-group">
+                        <label for="adSoyad">Adınız Soyadınız:</label>
+                        <input type="text" id="adSoyad" name="adSoyad" class="form-control" placeholder="Örn: Mehmet Efe">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">E-Posta Adresiniz:</label>
+                        <input type="email" id="email" name="email" class="form-control" placeholder="Örn: b240102009@sakarya.edu.tr">
+                    </div>
 
-                <label for="email">E-mail:</label>
-                <input type="email" id="email" name="email"><br><br>
+                    <!-- Select (Açılır Menü) -->
+                    <div class="form-group">
+                        <label for="konu">İletişim Konusu:</label>
+                        <select id="konu" name="konu" class="form-control">
+                            <option value="">Lütfen Bir Konu Seçin</option>
+                            <option value="akademi">Akademik / ÇAP Süreçleri</option>
+                            <option value="proje">BAP / Proje İşbirlikleri</option>
+                            <option value="oyun">Oyun & Yazılım</option>
+                        </select>
+                    </div>
 
-                <label>Cinsiyet:</label>
-                <input type="radio" name="cinsiyet" value="erkek"> Erkek
-                <input type="radio" name="cinsiyet" value="kadin"> Kadın<br><br>
+                    <!-- Radio Butonlar (Tekli Seçim) -->
+                    <div class="form-group mt-3">
+                        <label>Öğrenci misiniz?</label><br>
+                        <input type="radio" id="ogrenciEvet" name="ogrenciDurum" value="Evet">
+                        <label for="ogrenciEvet">Evet</label>
+                        
+                        <input type="radio" id="ogrenciHayir" name="ogrenciDurum" value="Hayır" class="ml-3">
+                        <label for="ogrenciHayir">Hayır</label>
+                    </div>
 
-                <label>Hobiler:</label>
-                <input type="checkbox" name="hobi" value="kodlama"> Kodlama
-                <input type="checkbox" name="hobi" value="oyun"> Oyun<br><br>
+                    <!-- Checkbox (Onay Kutusu) -->
+                    <div class="form-group mt-3">
+                        <input type="checkbox" id="onay" name="onay" value="Kabul">
+                        <label for="onay">Bilgilerimin işlenmesini onaylıyorum.</label>
+                    </div>
 
-                <label for="sehir">Şehir:</label>
-                <select id="sehir" name="sehir">
-                    <option value="sakarya">Sakarya</option>
-                    <option value="istanbul">İstanbul</option>
-                </select><br><br>
+                    <!-- Textarea (Mesaj Alanı) -->
+                    <div class="form-group mt-3">
+                        <label for="mesaj">Mesajınız:</label>
+                        <textarea id="mesaj" name="mesaj" class="form-control" rows="4" placeholder="Mesajınızı buraya yazın..."></textarea>
+                    </div>
 
-                <label for="mesaj">Mesajınız:</label><br>
-                <textarea id="mesaj" name="mesaj" rows="4" cols="30"></textarea><br><br>
-
-                <button type="submit">Native JS ile Denetle ve Gönder</button>
-                <button type="button">Vue.js/Framework ile Denetle</button>
+                    <!-- İki Farklı Doğrulama Butonu -->
+                    <div class="mt-4">
+                        <button type="button" class="btn btn-primary" onclick="formDogrulaJS()">Gönder (Native JS)</button>
+                        <!-- Vue butonunu şimdilik inaktif koyuyoruz, 10. gün aktifleşecek -->
+                        <button type="button" class="btn btn-success ml-2" disabled>Gönder (Vue.js) - Yakında</button>
+                    </div>
+                    
+                    <!-- Hata mesajlarının gösterileceği uyarı alanı -->
+                    <div id="hataAlani" class="text-danger mt-3" style="font-weight: bold;"></div>
             </form>
         </section>
     </main>
@@ -275,6 +311,54 @@
         function slaytDegistir(yon) {
             slaytIndex += yon;
             slaytGoster(slaytIndex);
+        }
+        function formDogrulaJS() {
+            // Form elemanlarındaki değerleri çekiyoruz
+            const adSoyad = document.getElementById("adSoyad").value.trim();
+            const email = document.getElementById("email").value.trim();
+            const konu = document.getElementById("konu").value;
+            const onay = document.getElementById("onay").checked;
+            const hataAlani = document.getElementById("hataAlani");
+            
+            // Hata alanını her tıklamada temizliyoruz
+            hataAlani.innerHTML = "";
+            hataAlani.className = "text-danger mt-3"; // Rengi kırmızı yap
+            let hatalar = [];
+
+            // 1. Boş Alan Kontrolleri
+            if (adSoyad === "") {
+                hatalar.push("• Ad Soyad alanı boş bırakılamaz.");
+            }
+            if (email === "") {
+                hatalar.push("• E-Posta alanı boş bırakılamaz.");
+            } else {
+                // 2. Basit E-Posta Format Kontrolü (İçinde @ ve nokta var mı?)
+                const emailFormat = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailFormat.test(email)) {
+                    hatalar.push("• Lütfen geçerli bir e-posta adresi giriniz.");
+                }
+            }
+
+            // 3. Select ve Checkbox Kontrolleri
+            if (konu === "") {
+                hatalar.push("• Lütfen bir iletişim konusu seçiniz.");
+            }
+            if (!onay) {
+                hatalar.push("• Bilgilerin işlenmesi onayını vermelisiniz.");
+            }
+
+            // Sonuçları Ekrana Yazdırma veya Formu Gönderme
+            if (hatalar.length > 0) {
+                // Hatalar varsa alt alta birleştirip ekrana yaz
+                hataAlani.innerHTML = hatalar.join("<br>");
+            } else {
+                // Hata yoksa başarılı mesajı ver
+                hataAlani.className = "text-success mt-3"; // Rengi yeşil yap
+                hataAlani.innerHTML = "Doğrulama başarılı! PHP entegrasyonu bekleniyor...";
+                
+                // Gerçek gönderim için yarın açılacak yer:
+                // document.getElementById("iletisimFormu").submit();
+            }
         }
     </script>
 </body>
