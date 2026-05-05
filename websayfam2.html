@@ -206,24 +206,26 @@
             <article>
                 <p>Benimle iletişime geçmek için aşağıdaki formu doldurabilirsiniz:</p>
                 
-                <!-- Form PHP'ye gidecek (Yarın ayarlayacağız) -->
                 <form id="iletisimFormu" action="islem.php" method="POST">
                     
-                    <!-- Text ve Email Input -->
                     <div class="form-group">
                         <label for="adSoyad">Adınız Soyadınız:</label>
-                        <input type="text" id="adSoyad" name="adSoyad" class="form-control" placeholder="Örn: Mehmet Efe">
+                        <input type="text" id="adSoyad" name="adSoyad" class="form-control" v-model="form.adSoyad" placeholder="Örn: Mehmet Efe">
                     </div>
                     
                     <div class="form-group">
                         <label for="email">E-Posta Adresiniz:</label>
-                        <input type="email" id="email" name="email" class="form-control" placeholder="Örn: b240102009@sakarya.edu.tr">
+                        <input type="email" id="email" name="email" class="form-control" v-model="form.email" placeholder="Örn: b240102009@sakarya.edu.tr">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="telefon">Telefon Numaranız:</label>
+                        <input type="text" id="telefon" name="telefon" class="form-control" v-model="form.telefon" placeholder="Örn: 05551234567">
                     </div>
 
-                    <!-- Select (Açılır Menü) -->
                     <div class="form-group">
                         <label for="konu">İletişim Konusu:</label>
-                        <select id="konu" name="konu" class="form-control">
+                        <select id="konu" name="konu" class="form-control" v-model="form.konu">
                             <option value="">Lütfen Bir Konu Seçin</option>
                             <option value="akademi">Akademik / ÇAP Süreçleri</option>
                             <option value="proje">BAP / Proje İşbirlikleri</option>
@@ -231,38 +233,33 @@
                         </select>
                     </div>
 
-                    <!-- Radio Butonlar (Tekli Seçim) -->
                     <div class="form-group mt-3">
                         <label>Öğrenci misiniz?</label><br>
-                        <input type="radio" id="ogrenciEvet" name="ogrenciDurum" value="Evet">
+                        <input type="radio" id="ogrenciEvet" name="ogrenciDurum" value="Evet" v-model="form.ogrenciDurum">
                         <label for="ogrenciEvet">Evet</label>
                         
-                        <input type="radio" id="ogrenciHayir" name="ogrenciDurum" value="Hayır" class="ml-3">
+                        <input type="radio" id="ogrenciHayir" name="ogrenciDurum" value="Hayır" class="ml-3" v-model="form.ogrenciDurum">
                         <label for="ogrenciHayir">Hayır</label>
                     </div>
 
-                    <!-- Checkbox (Onay Kutusu) -->
                     <div class="form-group mt-3">
-                        <input type="checkbox" id="onay" name="onay" value="Kabul">
-                        <label for="onay">Bilgilerimin işlenmesini onaylıyorum.</label>
+                        <input type="checkbox" id="onay" name="onay" v-model="form.onay">
+                        <label for="onay" class="ml-2">Bilgilerimin işlenmesini onaylıyorum.</label>
                     </div>
 
-                    <!-- Textarea (Mesaj Alanı) -->
                     <div class="form-group mt-3">
                         <label for="mesaj">Mesajınız:</label>
-                        <textarea id="mesaj" name="mesaj" class="form-control" rows="4" placeholder="Mesajınızı buraya yazın..."></textarea>
+                        <textarea id="mesaj" name="mesaj" class="form-control" rows="4" v-model="form.mesaj" placeholder="Mesajınızı buraya yazın..."></textarea>
                     </div>
 
-                    <!-- İki Farklı Doğrulama Butonu -->
                     <div class="mt-4">
                         <button type="button" class="btn btn-primary" onclick="formDogrulaJS()">Gönder (Native JS)</button>
-                        <!-- Vue butonunu şimdilik inaktif koyuyoruz, 10. gün aktifleşecek -->
-                        <button type="button" class="btn btn-success ml-2" disabled>Gönder (Vue.js) - Yakında</button>
+                        <!-- Vue Butonu Aktifleştirildi -->
+                        <button type="button" class="btn btn-success ml-2" @click="formDogrulaVue">Gönder (Vue.js)</button>
                     </div>
                     
-                    <!-- Hata mesajlarının gösterileceği uyarı alanı -->
                     <div id="hataAlani" class="text-danger mt-3" style="font-weight: bold;"></div>
-            </form>
+                </form>
         </section>
     </main>
 
@@ -316,8 +313,10 @@
             // Form elemanlarındaki değerleri çekiyoruz
             const adSoyad = document.getElementById("adSoyad").value.trim();
             const email = document.getElementById("email").value.trim();
+            const telefon = document.getElementById("telefon").value.trim();
             const konu = document.getElementById("konu").value;
             const onay = document.getElementById("onay").checked;
+            const ogrenciDurum = document.querySelector('input[name="ogrenciDurum"]:checked');
             const hataAlani = document.getElementById("hataAlani");
             
             // Hata alanını her tıklamada temizliyoruz
@@ -338,11 +337,22 @@
                     hatalar.push("• Lütfen geçerli bir e-posta adresi giriniz.");
                 }
             }
+            
+            if (telefon === "") {
+                hatalar.push("• Telefon alanı boş bırakılamaz.");
+            } else if (isNaN(telefon)) { // Sadece rakam mı diye kontrol eder
+                hatalar.push("• Telefon alanına sadece rakam girilmelidir.");
+            }
 
             // 3. Select ve Checkbox Kontrolleri
             if (konu === "") {
                 hatalar.push("• Lütfen bir iletişim konusu seçiniz.");
             }
+            
+            if (!ogrenciDurum) {
+                hatalar.push("• Lütfen öğrenci durumunuzu belirtiniz.")
+            }
+            
             if (!onay) {
                 hatalar.push("• Bilgilerin işlenmesi onayını vermelisiniz.");
             }
@@ -355,11 +365,52 @@
                 // Hata yoksa başarılı mesajı ver
                 hataAlani.className = "text-success mt-3"; // Rengi yeşil yap
                 hataAlani.innerHTML = "Doğrulama başarılı! PHP entegrasyonu bekleniyor...";
-                
-                // Gerçek gönderim için yarın açılacak yer:
-                // document.getElementById("iletisimFormu").submit();
+                document.getElementById("iletisimFormu").submit();
             }
         }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script>
+        new Vue({
+            el: '#iletisimFormu',
+            data: {
+                form: {
+                    adSoyad: '',
+                    email: '',
+                    telefon: '',
+                    konu: '',
+                    pgrenciDurum:'',
+                    mesaj: '',
+                    onay: false
+                }
+            },
+            methods: {
+                formDogrulaVue: function() {
+                    let hatalar = [];
+                    
+                    if (!this.form.adSoyad) hatalar.push("• Ad Soyad alanını doldurunuz (Vue).");
+                    if (!this.form.email) hatalar.push("• E-Posta alanını doldurunuz (Vue).");
+                    
+                    if (!this.form.telefon) {
+                        hatalar.push("• Telefon alanını doldurunuz (Vue).");
+                    } else if (isNaN(this.form.telefon)) {
+                        hatalar.push("• Telefon alanına sadece rakam girilmelidir (Vue).");
+                    }
+
+                    if (!this.form.konu) hatalar.push("• Bir konu seçiniz (Vue).");
+                    if (!this.form.onay) hatalar.push("• Formu onaylamanız gerekmektedir (Vue).");
+
+                    if (!this.form.onay) hatalar.push("• Formu onaylamanız gerekmektedir (Vue).");
+
+                    if (hatalar.length > 0) {
+                        alert("Vue.js Doğrulama Hataları:\n\n" + hatalar.join("\n"));
+                    } else {
+                        // Hata yoksa formu islem.php'ye gönder
+                        this.$el.submit();
+                    }
+                }
+            }
+        });
     </script>
 </body>
 </html>
