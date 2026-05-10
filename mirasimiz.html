@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Mirasımız - Mehmet Efe</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-light">
+
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="index.html">Mehmet Efe</a>
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="index.html">Hakkında</a></li>
+                <li class="nav-item"><a class="nav-link" href="ozgecmis.html">Özgeçmiş</a></li>
+                <li class="nav-item"><a class="nav-link" href="sehrim.html">Şehrim</a></li>
+                <li class="nav-item"><a class="nav-link" href="mirasimiz.html">Mirasımız</a></li>
+                <li class="nav-item"><a class="nav-link" href="ilgi-alanlari.html">İlgi Alanlarım</a></li>
+                <li class="nav-item"><a class="nav-link" href="iletisim.html">İletişim</a></li>
+                <li class="nav-item"><a class="nav-link text-warning" href="login.html" id="navLoginBtn">Giriş Yap</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container mt-4">
+        <section id="mirasimiz">
+            <header>
+                <h2>Mirasımız: Sakaryaspor</h2>
+            </header>
+
+            <article>
+                <h3>Kulüp Tarihçesi</h3>
+                <p>
+                    1965 yılında kurulan Sakaryaspor, Türk futboluna kazandırdığı önemli isimler ve 
+                    ateşli taraftar grubuyla "Anadolu Güneşi" olarak bilinir. Yeşil-siyah renklere 
+                    sahip olan kulüp, şehrin en önemli birleştirici güçlerinden biridir.
+                </p>
+            </article>
+
+            <article>
+                <h3>Kulüp Bilgileri</h3>
+                <ul>
+                    <li><strong>Kuruluş Yılı:</strong> 1965</li>
+                    <li><strong>Renkler:</strong> Yeşil - Siyah</li>
+                    <li><strong>Stadyum:</strong> Yeni Sakarya Atatürk Stadyumu</li>
+                    <li><strong>Lakabı:</strong> Tatangalar (Taraftar Grubu)</li>
+                </ul>
+            </article>
+
+            <article>
+                <h3>Başarılar ve Önemli Detaylar</h3>
+                <p>
+                    Sakaryaspor, sadece bir spor kulübü değil, aynı zamanda Sakarya'nın kültürel 
+                    mirasının bir parçasıdır. 1987-1988 sezonunda Türkiye Kupası'nı müzesine 
+                    götürerek tarihinin en büyük başarılarından birini elde etmiştir. Kulüp, 
+                    altyapısından yetiştirdiği dünya çapındaki futbolcularla "Futbolcu Fabrikası" 
+                    unvanını da taşımaktadır.
+                </p>
+            </article>
+        </section>
+    </main>
+
+    <script>
+        if(localStorage.getItem('isLogin') === 'true') {
+            const loginBtn = document.getElementById('navLoginBtn');
+            loginBtn.innerText = "Çıkış Yap";
+            loginBtn.className = "nav-link text-danger font-weight-bold";
+            loginBtn.href = "#";
+            loginBtn.onclick = function() { localStorage.removeItem('isLogin'); window.location.reload(); };
+        }
+    </script>
+</body>
+</html>

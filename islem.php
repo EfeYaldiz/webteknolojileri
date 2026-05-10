@@ -50,7 +50,7 @@
             </tbody>
         </table>
         
-        <a href="websayfam2.html" class="btn btn-primary mt-3">Ana Sayfaya Dön</a>
+        <a href="index.html" class="btn btn-primary mt-3">Ana Sayfaya Dön</a>
     </div>
 </body>
 </html>

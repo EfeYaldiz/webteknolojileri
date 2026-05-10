@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>İlgi Alanlarım - Mehmet Efe</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-light">
+
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="index.html">Mehmet Efe</a>
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="index.html">Hakkında</a></li>
+                <li class="nav-item"><a class="nav-link" href="ozgecmis.html">Özgeçmiş</a></li>
+                <li class="nav-item"><a class="nav-link" href="sehrim.html">Şehrim</a></li>
+                <li class="nav-item"><a class="nav-link" href="mirasimiz.html">Mirasımız</a></li>
+                <li class="nav-item"><a class="nav-link" href="ilgi-alanlari.html">İlgi Alanlarım</a></li>
+                <li class="nav-item"><a class="nav-link" href="iletisim.html">İletişim</a></li>
+                <li class="nav-item"><a class="nav-link text-warning" href="login.html" id="navLoginBtn">Giriş Yap</a></li>
+            </ul>
+        </nav>
+    </header>
+        
+<main class="container mt-4">
+    <section id="iletisim">
+
+            <header>
+                <h2>İletişim</h2>
+            </header>
+            
+            <article>
+                <p>Benimle iletişime geçmek için aşağıdaki formu doldurabilirsiniz:</p>
+                
+                <form id="iletisimFormu" action="islem.php" method="POST">
+                    
+                    <div class="form-group">
+                        <label for="adSoyad">Adınız Soyadınız:</label>
+                        <input type="text" id="adSoyad" name="adSoyad" class="form-control" v-model="form.adSoyad" placeholder="Örn: Mehmet Efe">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">E-Posta Adresiniz:</label>
+                        <input type="email" id="email" name="email" class="form-control" v-model="form.email" placeholder="Örn: b240102009@sakarya.edu.tr">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="telefon">Telefon Numaranız:</label>
+                        <input type="text" id="telefon" name="telefon" class="form-control" v-model="form.telefon" placeholder="Örn: 05551234567">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="konu">İletişim Konusu:</label>
+                        <select id="konu" name="konu" class="form-control" v-model="form.konu">
+                            <option value="">Lütfen Bir Konu Seçin</option>
+                            <option value="akademi">Akademik / ÇAP Süreçleri</option>
+                            <option value="proje">BAP / Proje İşbirlikleri</option>
+                            <option value="oyun">Oyun & Yazılım</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group mt-3">
+                        <label>Öğrenci misiniz?</label><br>
+                        <input type="radio" id="ogrenciEvet" name="ogrenciDurum" value="Evet" v-model="form.ogrenciDurum">
+                        <label for="ogrenciEvet">Evet</label>
+                        
+                        <input type="radio" id="ogrenciHayir" name="ogrenciDurum" value="Hayır" class="ml-3" v-model="form.ogrenciDurum">
+                        <label for="ogrenciHayir">Hayır</label>
+                    </div>
+
+                    <div class="form-group mt-3">
+                        <input type="checkbox" id="onay" name="onay" v-model="form.onay">
+                        <label for="onay" class="ml-2">Bilgilerimin işlenmesini onaylıyorum.</label>
+                    </div>
+
+                    <div class="form-group mt-3">
+                        <label for="mesaj">Mesajınız:</label>
+                        <textarea id="mesaj" name="mesaj" class="form-control" rows="4" v-model="form.mesaj" placeholder="Mesajınızı buraya yazın..."></textarea>
+                    </div>
+
+                    <div class="mt-4">
+                        <button type="button" class="btn btn-primary" onclick="formDogrulaJS()">Gönder (Native JS)</button>
+                        <!-- Vue Butonu Aktifleştirildi -->
+                        <button type="button" class="btn btn-success ml-2" @click="formDogrulaVue">Gönder (Vue.js)</button>
+                    </div>
+                    
+                    <div id="hataAlani" class="text-danger mt-3" style="font-weight: bold;"></div>
+                </form>
+            </article>
+    </section>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script>
+        function formDogrulaJS() {
+            // Form elemanlarındaki değerleri çekiyoruz
+            const adSoyad = document.getElementById("adSoyad").value.trim();
+            const email = document.getElementById("email").value.trim();
+            const telefon = document.getElementById("telefon").value.trim();
+            const konu = document.getElementById("konu").value;
+            const onay = document.getElementById("onay").checked;
+            const ogrenciDurum = document.querySelector('input[name="ogrenciDurum"]:checked');
+            const hataAlani = document.getElementById("hataAlani");
+            
+            // Hata alanını her tıklamada temizliyoruz
+            hataAlani.innerHTML = "";
+            hataAlani.className = "text-danger mt-3"; // Rengi kırmızı yap
+            let hatalar = [];
+
+            // 1. Boş Alan Kontrolleri
+            if (adSoyad === "") {
+                hatalar.push("• Ad Soyad alanı boş bırakılamaz.");
+            }
+            if (email === "") {
+                hatalar.push("• E-Posta alanı boş bırakılamaz.");
+            } else {
+                // 2. Basit E-Posta Format Kontrolü (İçinde @ ve nokta var mı?)
+                const emailFormat = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailFormat.test(email)) {
+                    hatalar.push("• Lütfen geçerli bir e-posta adresi giriniz.");
+                }
+            }
+            
+            if (telefon === "") {
+                hatalar.push("• Telefon alanı boş bırakılamaz.");
+            } else if (isNaN(telefon)) { // Sadece rakam mı diye kontrol eder
+                hatalar.push("• Telefon alanına sadece rakam girilmelidir.");
+            }
+
+            // 3. Select ve Checkbox Kontrolleri
+            if (konu === "") {
+                hatalar.push("• Lütfen bir iletişim konusu seçiniz.");
+            }
+            
+            if (!ogrenciDurum) {
+                hatalar.push("• Lütfen öğrenci durumunuzu belirtiniz.")
+            }
+            
+            if (!onay) {
+                hatalar.push("• Bilgilerin işlenmesi onayını vermelisiniz.");
+            }
+
+            // Sonuçları Ekrana Yazdırma veya Formu Gönderme
+            if (hatalar.length > 0) {
+                // Hatalar varsa alt alta birleştirip ekrana yaz
+                hataAlani.innerHTML = hatalar.join("<br>");
+            } else {
+                // Hata yoksa başarılı mesajı ver
+                hataAlani.className = "text-success mt-3"; // Rengi yeşil yap
+                hataAlani.innerHTML = "Doğrulama başarılı! PHP entegrasyonu bekleniyor...";
+                document.getElementById("iletisimFormu").submit();
+            }
+        }
+        if(localStorage.getItem('isLogin') === 'true') {
+            const loginBtn = document.getElementById('navLoginBtn');
+            loginBtn.innerText = "Çıkış Yap";
+            loginBtn.className = "nav-link text-danger font-weight-bold";
+            loginBtn.href = "#";
+            loginBtn.onclick = function() { localStorage.removeItem('isLogin'); window.location.reload(); };
+        }
+        new Vue({
+            el: '#iletisimFormu',
+            data: { form: { adSoyad: '', email: '', telefon: '', konu: '', ogrenciDurum: '', mesaj: '', onay: false } },
+            methods: {
+                formDogrulaVue: function() {
+                    let hatalar = [];
+                    if (!this.form.adSoyad) hatalar.push("• Ad Soyad alanını doldurunuz (Vue).");
+                    
+                    if (!this.form.email) {
+                        hatalar.push("• E-Posta alanını doldurunuz (Vue).");
+                    } else {
+                        const emailFormat = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                        if (!emailFormat.test(this.form.email)) hatalar.push("• Lütfen geçerli bir e-posta adresi giriniz (Vue).");
+                    }
+                    
+                    if (!this.form.telefon) {
+                        hatalar.push("• Telefon alanını doldurunuz (Vue).");
+                    } else if (isNaN(this.form.telefon)) {
+                        hatalar.push("• Telefon alanına sadece rakam girilmelidir (Vue).");
+                    }
+                    if (!this.form.konu) hatalar.push("• Bir konu seçiniz (Vue).");
+                    if (!this.form.ogrenciDurum) hatalar.push("• Lütfen öğrenci durumunuzu belirtiniz (Vue).");
+                    if (!this.form.onay) hatalar.push("• Formu onaylamanız gerekmektedir (Vue).");
+
+                    if (hatalar.length > 0) alert("Vue.js Doğrulama Hataları:\n\n" + hatalar.join("\n"));
+                    else this.$el.submit();
+                }
+                
+            }
+        });
+    </script>
+</body>
+</html>

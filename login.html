@@ -11,7 +11,7 @@
     <div class="container mt-5" style="max-width: 400px;">
         <h3 class="text-center mb-4">Sisteme Giriş</h3>
         
-        <!-- onsubmit eventi ile form gönderilmeden önce JS fonksiyonumuz çalışacak -->
+        <!-- onsubmit eventi ile form gönderilmeden önce JS fonksiyonu çalışacak -->
         <form action="login.php" method="POST" class="p-4 bg-white shadow rounded" onsubmit="return girisKontrol(event)">
             
             <div class="form-group">
@@ -27,7 +27,7 @@
             <button type="submit" class="btn btn-warning btn-block">Giriş Yap</button>
             
             <!-- Yeni Eklenen: Ana Sayfaya Dön Butonu -->
-            <a href="websayfam2.html" class="btn btn-secondary btn-block mt-2">Ana Sayfaya Dön</a>
+            <a href="index.html" class="btn btn-secondary btn-block mt-2">Ana Sayfaya Dön</a>
             
             <!-- JavaScript hata mesajının yazdırılacağı alan -->
             <div id="loginHata" class="text-danger mt-3 font-weight-bold text-center"></div>
@@ -64,14 +64,15 @@
             return true;
         }
         window.onload = function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const hataAlani = document.getElementById("loginHata");
-            
-            // Eğer PHP bizi "?durum=hata" ile geri gönderdiyse ekrana yazdır
-            if (urlParams.get('durum') === 'hata') {
-                hataAlani.innerHTML = "Kullanıcı adı veya şifre hatalı!";
+            if(localStorage.getItem('isLogin') === 'true') {
+                window.location.href = 'index.html';
             }
-        }
+            
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('durum') === 'hata') {
+                document.getElementById("loginHata").innerHTML = "Kullanıcı adı veya şifre hatalı!";
+            }
+        };
     </script>
 </body>
 </html>
